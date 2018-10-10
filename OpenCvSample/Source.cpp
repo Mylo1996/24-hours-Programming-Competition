@@ -10,35 +10,55 @@
 
 #include <fftw3.h>
 
-
-
 using namespace cv;
 using namespace std;
+
+vector<char> FtoBA(string filename) {
+	ifstream inputf;
+	inputf.open(filename, ios::binary);
+	vector<char> buffer((istreambuf_iterator<char>(inputf)), (istreambuf_iterator<char>()));
+	inputf.close();
+	return buffer;
+}
+
+void BAtoF(string filename, vector<char> buffer) {
+	ofstream outputf;
+	outputf.open(filename, ios::binary);
+	for (std::vector<char>::iterator it = buffer.begin(); it != buffer.end(); ++it) outputf << static_cast<unsigned char>(bitset<8>(*it).to_ulong());
+	outputf.close();
+}
+
 int main(int argc, const char** argv)
 {
 	//Szebinek szerkesztésre
 
-	/*ifstream inputf;
-	ofstream outputf;
-	inputf.open("down.png", ios::binary);
-	outputf.open("downbits.png", ios::binary);
-	char c;
-	vector<char> buffer((istreambuf_iterator<char>(inputf)),(istreambuf_iterator<char>()));
-	for (std::vector<char>::iterator it = buffer.begin(); it != buffer.end(); ++it) outputf << bitset<8>(*it);
-	inputf.close();
-	outputf.close();
-	inputf.open("downbits.png", ios::binary);
-	outputf.open("up.png", ios::binary);
-	bitset<8> v8;
-	unsigned long i8;
-	if (inputf.is_open()) while (inputf.peek() != EOF) {
-		inputf >> v8;
-		i8=v8.to_ulong();
-		outputf << static_cast<unsigned char>(i8);
-	}
-	inputf.close();
-	outputf.close();*/
+	//ifstream inputf;
+	//ofstream outputf;
+	//inputf.open("beappendbinary.txt", ios::binary);
+	//outputf.open("bitsappendbinary.txt", ios::binary);
+	//vector<char> buffer((istreambuf_iterator<char>(inputf)),(istreambuf_iterator<char>()));
+	//inputf.close();
+	//for (std::vector<char>::iterator it = buffer.begin(); it != buffer.end(); ++it) outputf << bitset<8>(*it);
+	//outputf.close();
+	//inputf.open("bitsappendbinary.txt", ios::binary);
+	//outputf.open("appendbinary.txt", ios::binary);
+	//bitset<8> v8;
+	//unsigned long i8;
+	//if (inputf.is_open()) while (inputf.peek() != EOF) {
+	//	inputf >> v8;
+	//	i8=v8.to_ulong();
+	//	outputf << static_cast<unsigned char>(i8);
+	//}
+	//inputf.close();
+	//outputf.close();
 	
+
+	//Tesztfutás függvényekre
+
+	/*BAtoF("kki.txt", FtoBA("be.txt"));*/
+	
+
+
 	Mat image;
 	image = imread("down.png", CV_LOAD_IMAGE_COLOR);
 	imshow("Test", image);
