@@ -1,15 +1,10 @@
 #include <SFML/Audio.hpp>
-#include <SFML/Graphics.hpp>
 
-#include <atomic>
-#include <cassert>
-#include <mutex>
-#include <queue>
 #include <iostream>
 #include <fstream>
 #include <bitset>
-#include <time.h> 
 #include <Windows.h>
+#include <cmath>
 
 using namespace std;
 
@@ -81,8 +76,34 @@ int main(int, char const**)
 	sf::Sound sound(buffer);
 	Sleep(100);
 	sound.play();
-
 	Sleep(3000);
+
+	const unsigned SAMPLES = 44100;
+	const unsigned SAMPLE_RATE = 44100;
+	const unsigned AMPLITUDE = 30000;
+
+	sf::Int16 raw[SAMPLES];
+
+	const double TWO_PI = 6.28318;
+	const double increment = 440. / 44100;
+	double x = 0;
+	for (int i = 0; i < SAMPLES; i++) {
+		raw[i] = AMPLITUDE * sin(x*TWO_PI*12000);
+		x += increment;
+	}
+
+	sf::SoundBuffer Buffer;
+	if (!Buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
+		std::cerr << "Loading failed!" << std::endl;
+		return 1;
+	}
+
+	sf::Sound Sound;
+	Sound.setBuffer(Buffer);
+	//Sound.setLoop(true);
+	Sound.play();
+
+	while (Sound.getStatus() == 2){}
 
 	return EXIT_SUCCESS;
 }
