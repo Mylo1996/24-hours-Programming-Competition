@@ -8,7 +8,10 @@ using namespace cv;
 int main(int argc, const char** argv)
 {
 	Mat image;
-	// Allahu ahkbar
+	// Geza kek az eg.
+	/*
+	Mizu teska?
+	*/
 	image = imread("down.png", CV_LOAD_IMAGE_COLOR);
 	imshow("Test", image);
 	waitKey(0);
