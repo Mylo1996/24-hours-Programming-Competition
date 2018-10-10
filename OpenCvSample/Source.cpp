@@ -8,6 +8,7 @@ using namespace cv;
 int main(int argc, const char** argv)
 {
 	Mat image;
+	
 	image = imread("down.png", CV_LOAD_IMAGE_COLOR);
 	imshow("Test", image);
 	waitKey(0);
