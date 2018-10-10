@@ -5,8 +5,10 @@
 #include <bitset>
 #include <Windows.h>
 #include <cmath>
+#include <string>
 
 using namespace std;
+int index = 0;
 
 vector<char> FtoBA(string filename) {
 	ifstream inputf;
@@ -56,54 +58,78 @@ vector<int> BAtoIA(vector<char> vc) {
 }
 
 
+
 int main(int, char const**)
 {
 	if (!sf::SoundBufferRecorder::isAvailable())
 	{
 	}
-	// create the recorder
-	sf::SoundBufferRecorder recorder;
-	// start the capture
-	recorder.start();
-	Sleep(500);
-	cout << "Speak now" << endl;
-	Sleep(2000);
-	// stop the capture
-	recorder.stop();
-	cout << "Stop" << endl;
-	// retrieve the buffer that contains the captured audio data
-	const sf::SoundBuffer& buffer = recorder.getBuffer();
-	sf::Sound sound(buffer);
-	Sleep(100);
-	sound.play();
-	Sleep(3000);
+	//// create the recorder
+	//sf::SoundBufferRecorder recorder;
+	//// start the capture
+	//recorder.start();
+	//Sleep(500);
+	//cout << "Speak now" << endl;
+	//Sleep(2000);
+	//// stop the capture
+	//recorder.stop();
+	//cout << "Stop" << endl;
+	//// retrieve the buffer that contains the captured audio data
+	//const sf::SoundBuffer& buffer = recorder.getBuffer();
+	//sf::Sound sound(buffer);
+	//Sleep(100);
+	//sound.play();
+	//Sleep(3000);
+
+	
+
+	
+
+	
+	//Sound.setLoop(true);
+
+
 
 	const unsigned SAMPLES = 44100;
 	const unsigned SAMPLE_RATE = 44100;
 	const unsigned AMPLITUDE = 30000;
-
+		
 	sf::Int16 raw[SAMPLES];
 
 	const double TWO_PI = 6.28318;
 	const double increment = 440. / 44100;
-	double x = 0;
-	for (int i = 0; i < SAMPLES; i++) {
-		raw[i] = AMPLITUDE * sin(x*TWO_PI*12000);
-		x += increment;
+	double x = 0; 
+	string test = "01010010";
+	cout << test.size() << endl;
+	for (int j = 0; j < test.size(); j++) {
+		for (int i = j*(SAMPLES/test.size()); i < ((j+1)*(SAMPLES/8)); i++) {
+			if (test[j] == '0') {
+				raw[i] = AMPLITUDE * sin(x*TWO_PI * 12000);
+				x += increment;
+
+			}
+			else if (test[j] == '1'){
+				raw[i] = AMPLITUDE * sin((x+180)*TWO_PI * 12000);
+				x += increment;
+			}
+		}
 	}
+	
 
 	sf::SoundBuffer Buffer;
 	if (!Buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
 		std::cerr << "Loading failed!" << std::endl;
-		return 1;
 	}
 
 	sf::Sound Sound;
-	Sound.setBuffer(Buffer);
-	//Sound.setLoop(true);
-	Sound.play();
 
-	while (Sound.getStatus() == 2){}
+	Sound.setBuffer(Buffer);
+	Sound.play();
+	
+
+	//while (Sound.getStatus() == 2){}
+	int a;
+	cin >> a;
 
 	return EXIT_SUCCESS;
 }
