@@ -28,34 +28,44 @@ void BAtoF(string filename, vector<char> buffer) {
 	outputf.close();
 }
 
+vector<char> IAtoBA(vector<int> vi) {
+	vector<char> vc;
+	for (std::vector<int>::iterator it = vi.begin(); it != vi.end(); ++it) {
+		string s= to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		++it;
+		s += to_string(*it - 48);
+		vc.push_back(static_cast<unsigned char>(bitset<8>(s).to_ulong()));
+	}
+	return vc;
+}
+
+vector<int> BAtoIA(vector<char> vc) {
+	vector<int> vi;
+	for (std::vector<char>::iterator it = vc.begin(); it != vc.end(); ++it) {
+		string s = (bitset<8>(*it)).to_string();
+		for (int i = 0; i < 8; i++) vi.push_back(s[i]);
+	}
+	return vi;
+}
+
 int main(int argc, const char** argv)
 {
-	//Szebinek szerkesztésre
-
-	//ifstream inputf;
-	//ofstream outputf;
-	//inputf.open("beappendbinary.txt", ios::binary);
-	//outputf.open("bitsappendbinary.txt", ios::binary);
-	//vector<char> buffer((istreambuf_iterator<char>(inputf)),(istreambuf_iterator<char>()));
-	//inputf.close();
-	//for (std::vector<char>::iterator it = buffer.begin(); it != buffer.end(); ++it) outputf << bitset<8>(*it);
-	//outputf.close();
-	//inputf.open("bitsappendbinary.txt", ios::binary);
-	//outputf.open("appendbinary.txt", ios::binary);
-	//bitset<8> v8;
-	//unsigned long i8;
-	//if (inputf.is_open()) while (inputf.peek() != EOF) {
-	//	inputf >> v8;
-	//	i8=v8.to_ulong();
-	//	outputf << static_cast<unsigned char>(i8);
-	//}
-	//inputf.close();
-	//outputf.close();
-	
 
 	//Tesztfutás függvényekre
 
-	/*BAtoF("kki.txt", FtoBA("be.txt"));*/
+	//BAtoF("kki.txt", IAtoBA(BAtoIA(FtoBA("be.txt"))));
 	
 
 
