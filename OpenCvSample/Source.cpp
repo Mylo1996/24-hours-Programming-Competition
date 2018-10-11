@@ -99,35 +99,50 @@ int main(int, char const**)
 	const double TWO_PI = 6.28318;
 	const double increment = 440. / 44100;
 	double x = 0; 
-	string test = "01010010";
-	cout << test.size() << endl;
-	for (int j = 0; j < test.size(); j++) {
-		for (int i = j*(SAMPLES/test.size()); i < ((j+1)*(SAMPLES/8)); i++) {
-			if (test[j] == '0') {
-				raw[i] = AMPLITUDE * sin(x*TWO_PI * 12000);
-				x += increment;
+	string test="00000000";
+	vector<char> ss =FtoBA("down.png");
 
+	for (std::vector<char>::iterator it = ss.begin(); it != ss.end(); ++it) {
+		 test = (bitset<8>(*it)).to_string();
+	while (1) {
+		for (int j = 0; j < test.size(); j++) {
+			//for (int i = j * (SAMPLES / test.size()); i < ((j + 1)*(SAMPLES / 8)); i++) {
+			cout << test[j];
+			if (test[j] == '0') {
+				Beep(9000,100);
+				Sleep(200);
+				//raw[i] = AMPLITUDE * sin(x*TWO_PI * 3000);
+				//x += increment;
 			}
-			else if (test[j] == '1'){
-				raw[i] = AMPLITUDE * sin((x+180)*TWO_PI * 12000);
-				x += increment;
+			else if (test[j] == '1') {
+				Beep(300,100);
+				Sleep(200);
+				//raw[i] = AMPLITUDE * sin(x*TWO_PI * 10000);
+				//x += increment;
+			}
 			}
 		}
 	}
+		 sf::SoundBuffer Buffer;
+		 if (!Buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
+			 std::cerr << "Loading failed!" << std::endl;
+		 }
+		 sf::Sound Sound;
+		 Sound.setBuffer(Buffer);
+		 Sound.play();
+		 while (Sound.getStatus() == 2){}
+		 
+	//}
+	
+	//cout << "finished";
 	
 
-	sf::SoundBuffer Buffer;
-	if (!Buffer.loadFromSamples(raw, SAMPLES, 1, SAMPLE_RATE)) {
-		std::cerr << "Loading failed!" << std::endl;
-	}
-
-	sf::Sound Sound;
-
-	Sound.setBuffer(Buffer);
-	Sound.play();
 	
 
-	//while (Sound.getStatus() == 2){}
+	
+	
+
+	
 	int a;
 	cin >> a;
 
